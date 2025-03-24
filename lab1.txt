@@ -1,0 +1,161 @@
+Q1: Create a department table with the following columns: dept_id (PK), dept_name(not null), dept_location.
+  
+SQL>  create table Department9(dept_id varchar(5)primary key,dept_name varchar(15) not null,dept_location varchar(25));
+ 
+ Table created.
+   
+ Q2: Write a SQL query to create an employee table with the following columns: emp_id(PK), emp_name, emp_salary (>20k), emp_join_date (between June 1998- tilldate), dept_id (FK).
+
+SQL> create table Employee9(emp_id varchar(5) primary key,emp_name varchar(15),emp_salary numeric(10,2)check(emp_salary>20000),emp_join_date date check(emp_join_date >=date '1998-06-01'),dept_id varchar(5),foreign key(dept_id) references Department9(dept_id));
+ 
+ Table created.
+
+Q3: Create table support table with s_id (PK), emp_id (FK), dept_id (FK), status(Yes/No).
+
+SQL> create table support9(s_id varchar(5) primary key,emp_id varchar(5),dept_id varchar(5),status varchar(6) check(status in('yes','no')),foreign key(emp_id) references Employee9(emp_id),foreign key (dept_id)references Department9(dept_id));
+
+Table Created.
+
+Q4: Display the schema of the above three tables.
+
+SQL> desc Department9; 
+
+ Name				Null?            Type
+ ----------------------------------------- -------- ----------------------------
+ DEPT_ID		NOT NULL       VARCHAR2(5)
+ DEPT_NAME	NOT NULL       VARCHAR2(15)
+ DEPT_LOCATION	                           VARCHAR2(25)
+
+SQL> desc Employee9;
+
+Name			       Null?              Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID 		NOT NULL       VARCHAR2(5)
+ EMP_NAME				   VARCHAR2(15)
+ EMP_SALARY		               NUMBER(10,2)
+ EMP_JOIN_DATE	 		   DATE
+ DEPT_ID				   VARCHAR2(5)
+
+
+
+
+SQL> desc support9;
+
+
+
+
+
+Name		     Null?      		Type
+ ----------------------------------------- -------- ----------------------------
+ S_ID		NOT NULL 		VARCHAR2(5)
+ EMP_ID 				VARCHAR2(5)
+ DEPT_ID				VARCHAR2(5)
+ STATUS 				VARCHAR2(6)
+ 
+Q5: Alter the employee table to add a new column emp_email of type VARCHAR(100).
+
+SQL> alter table Employee9 add emp_email varchar(100);
+
+Table altered.
+
+SQL> desc Employee9;
+
+ Name					   Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID 				   NOT NULL VARCHAR2(5)
+ EMP_NAME					    VARCHAR2(15)
+ EMP_SALARY					    NUMBER(12,2)
+ EMP_JOIN_DATE					    DATE
+ DEPT_ID					    VARCHAR2(5)
+ EMP_EMAIL					    VARCHAR2(100)
+
+Q6: Drop the support table if it is no longer required.
+
+SQL> drop table support9;
+
+Table dropped.
+
+Q7: Modify the emp_salary column in the employee table to allow values up to DECIMAL(12, 2).
+
+SQL> alter table Employee9 modify emp_salary decimal(12,2);
+
+Table altered.
+
+Q8: Add five suitable records to department table (Let value of dept_id starts with 101).
+
+SQL> insert into Department9 values(101,'MCA','North Block');
+
+1 row created.
+
+SQL> insert into Department9 values(102,'MBA','North Block');
+
+1 row created.
+
+SQL> insert into Department9 values(103,'CSE','South Block');
+
+1 row created.
+
+SQL> insert into Department9 values(104,'EEE','Main Block');
+
+1 row created.
+
+SQL> insert into Department9 values(105,'Mtech','East Block');
+
+1 row created.
+
+SQL> select * from Department9;
+
+
+DEPT_ DEPT_NAME       DEPT_LOCATION
+----- --------------- -------------------------
+101   MCA	      North Block
+102   MBA	      North Block
+103   CSE	      South Block
+104   EEE	      Main Block
+105   Mtech	      East Block
+
+
+Q9: Insert the following employee record into the employee table: emp_id = 1, emp_name= 'John Doe', emp_salary = 60000, emp_join_date ='15-05-2021', dept_id= 101.
+
+insert into Employee9 (emp_id,emp_name,emp_salary,emp_join_date,dept_id)values(1,'John Doe',60000,To_Date('15-05-2021','DD-MM-YYYY'),101);
+
+1 row created.
+
+Q10: Insert multiple records of employees into the employee table with emp_id, emp_name,
+emp_salary, and dept_id.
+insert into Employee9 (emp_id,emp_name,emp_salary,emp_join_date,dept_id) values(2,'Jennifer',50000,To_Date('10-10-2020','DD-MM-YYYY'),102);
+
+1 row created.
+
+insert into Employee9 (emp_id, emp_name,emp_salary,emp_join_date,dept_id)values(3,'Harry',70000,To_Date('13-11-2019','DD-MM-YYYY'),103);
+1 row created.
+insert into Employee9(emp_id, emp_name,emp_salary,emp_join_date, dept_id) values(4,'Alice',80000,To_Date('05-05-2023','DD-MM-YYYY'),104);
+1 row created.
+insert into Employee9 (emp_id, emp_name,emp_salary,emp_join_date,dept_id)values(5,'Newman',45000,To_Date('20-12-2024','DD-MM-YYYY'),105);
+1 row created.
+
+
+EMP_I EMP_NAME	      EMP_SALARY EMP_JOIN_ DEPT_ EMP_EMAIL
+----- --------------- ---------- --------- ----- ----------------------------------------------------------------------------------------------------
+1    John Doe              60000    15-MAY-21   101
+2     Jennifer		   50000 10-OCT-20 102
+3     Harry		   70000 13-NOV-19 103
+4     Alice		   80000 05-MAY-23 104
+5     Newman		   45000 20-DEC-24 105
+
+Q11: Update the salary of the employee with emp_id = 1 by increasing it by 10%.
+
+update Employee9 set emp_salary=emp_salary*1.10 where emp_id=1;
+
+1 row updated.
+
+Q12: Delete the record of the employee with emp_id = 1.
+delete from Employee9 where emp_id=1;
+
+1 row deleted.
+
+Q13: Update the emp_salary of employees in dept_id = 101 to 10% more if their current
+salary is less than 50000.
+update Employee9 set emp_salary=emp_salary*1.10 where dept_id=101 and emp_salary<50000;
+
+1 row updated.
