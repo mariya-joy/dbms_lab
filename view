@@ -1,0 +1,4 @@
+create  view high_salary_employees as select emp_name,emp_salary from Employee9 where emp_salary>70000;
+select * from high_salary_employees;
+create view empdpt as select e.emp_salary,d.dept_id from Employee9 e,Department9 d where e.emp_salary<50000 and e.dept_id=d.dept_id;
+drop view high_salary_employees;
